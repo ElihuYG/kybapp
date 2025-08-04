@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 404 - KYB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --emerald-50: #ecfdf5;
+            --emerald-100: #d1fae5;
+            --emerald-200: #a7f3d0;
+            --emerald-300: #6ee7b7;
+            --emerald-400: #34d399;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            --emerald-800: #065f46;
+            --emerald-900: #064e3b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+        
+        .emerald-gradient {
+            background: linear-gradient(135deg, var(--emerald-600), var(--emerald-400));
+        }
+        
+        .emerald-gradient-hover:hover {
+            background: linear-gradient(135deg, var(--emerald-700), var(--emerald-500));
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--emerald-500);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .error-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .glitch-text {
+            position: relative;
+            color: var(--emerald-400);
+            font-size: 8rem;
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: '404';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .glitch-text::before {
+            animation: glitch-1 2s infinite;
+            color: #ff0040;
+            z-index: -1;
+        }
+        
+        .glitch-text::after {
+            animation: glitch-2 2s infinite;
+            color: #00ffff;
+            z-index: -2;
+        }
+        
+        @keyframes glitch-1 {
+            0%, 14%, 15%, 49%, 50%, 99%, 100% {
+                transform: translate(0);
+            }
+            15%, 49% {
+                transform: translate(-2px, 2px);
+            }
+        }
+        
+        @keyframes glitch-2 {
+            0%, 20%, 21%, 62%, 63%, 99%, 100% {
+                transform: translate(0);
+            }
+            21%, 62% {
+                transform: translate(2px, -2px);
+            }
+        }
+        
+        .countdown-circle {
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            animation: countdown 10s linear forwards;
+        }
+        
+        @keyframes countdown {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .suggestion-card {
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Header Premium -->
+    <header class="glass-effect sticky top-0 z-50 border-b border-emerald-500/20">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo Premium -->
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-3xl font-bold emerald-gradient bg-clip-text text-transparent">
+                        KYB
+                    </a>
+                </div>
+                
+                <!-- Navigation Premium -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-white hover:text-emerald-400 font-medium">Inicio</a>
+                    <a href="#" class="nav-link text-white hover:text-emerald-400 font-medium">Películas</a>
+                    <a href="#" class="nav-link text-white hover:text-emerald-400 font-medium">Series</a>
+                    <a href="#" class="nav-link text-white hover:text-emerald-400 font-medium">Animes</a>
+                    <a href="#" class="nav-link text-white hover:text-emerald-400 font-medium">K-Dramas</a>
+                    <a href="#" class="nav-link text-white hover:text-emerald-400 font-medium">Mi Lista</a>
+                </nav>
+                
+                <!-- User Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search Icon -->
+                    <button id="searchBtn" class="glass-effect p-3 rounded-xl hover:bg-white/10 transition-all">
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                    
+                    <!-- User Profile -->
+                    <div id="userSection" class="flex items-center space-x-3">
+                        <!-- Login Button (shown when not logged in) -->
+                        <button id="loginBtn" class="emerald-gradient emerald-gradient-hover px-6 py-2 rounded-xl font-semibold transition-all transform hover:scale-105">
+                            Iniciar Sesión
+                        </button>
+                        
+                        <!-- User Profile (shown when logged in) -->
+                        <div id="userProfile" class="hidden flex items-center space-x-3">
+                            <div class="relative">
+                                <div class="flex items-center space-x-2 cursor-pointer" id="profileDropdown">
+                                    <img id="userAvatar" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle fill='%2310b981' cx='50' cy='50' r='50'/><text x='50' y='60' text-anchor='middle' fill='white' font-size='40' font-family='Arial'>U</text></svg>" 
+                                         alt="Avatar" class="w-10 h-10 rounded-full border-2 border-emerald-500">
+                                    <span id="userName" class="text-white font-medium">Usuario</span>
+                                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                                <!-- Dropdown Menu -->
+                                <div id="profileMenu" class="absolute right-0 top-full mt-2 w-48 glass-effect rounded-xl border border-emerald-500/20 hidden">
+                                    <div class="py-2">
+                                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/10 transition-colors">Mi Perfil</a>
+                                        <a href="#" class="block px-4 py-2 text-white hover:bg-white/10 transition-colors">Configuración</a>
+                                        <hr class="border-emerald-500/20 my-2">
+                                        <button id="logoutBtn" class="block w-full text-left px-4 py-2 text-red-400 hover:bg-white/10 transition-colors">Cerrar Sesión</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Error 404 Section -->
+    <section class="min-h-screen flex items-center justify-center py-12">
+        <div class="container mx-auto px-6 text-center">
+            <!-- Error Animation -->
+            <div class="error-animation mb-8">
+                <div class="glitch-text mb-4">404</div>
+                <div class="w-32 h-32 mx-auto mb-8 relative">
+                    <div class="w-full h-full emerald-gradient rounded-full flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <!-- Countdown Circle -->
+                    <svg class="absolute top-0 left-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(16, 185, 129, 0.2)" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="var(--emerald-500)" stroke-width="2" 
+                                class="countdown-circle" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="max-w-2xl mx-auto mb-12">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    <span class="emerald-gradient bg-clip-text text-transparent">¡Oops!</span> Página No Encontrada
+                </h1>
+                <p class="text-xl text-gray-400 mb-8 leading-relaxed">
+                    La página que buscas no existe o ha sido movida. No te preocupes, te ayudamos a encontrar lo que necesitas.
+                </p>
+                
+                <!-- Auto Redirect Info -->
+                <div class="glass-effect rounded-2xl p-6 mb-8 border border-emerald-500/20">
+                    <div class="flex items-center justify-center space-x-3 mb-4">
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="text-emerald-400 font-semibold">Redirección Automática</span>
+                    </div>
+                    <p class="text-gray-300">
+                        Serás redirigido al inicio en <span id="countdown" class="text-emerald-400 font-bold">10</span> segundos
+                    </p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button id="homeBtn" class="emerald-gradient emerald-gradient-hover px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 flex items-center space-x-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span>Ir al Inicio</span>
+                </button>
+                
+                <button id="searchPageBtn" class="glass-effect px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 flex items-center space-x-2 hover:bg-white/10 border border-emerald-500/30">
+                    <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <span>Buscar Contenido</span>
+                </button>
+            </div>
+
+            <!-- Popular Suggestions -->
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold mb-8 text-emerald-400">Contenido Popular</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Suggestion 1 -->
+                    <div class="suggestion-card glass-effect rounded-2xl p-6 border border-emerald-500/20 cursor-pointer" data-content="movies">
+                        <div class="w-16 h-16 emerald-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v2a1 1 0 01-1 1h-1v12a2 2 0 01-2 2H6a2 2 0 01-2-2V8H3a1 1 0 01-1-1V5a1 1 0 011-1h4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-white">Películas</h3>
+                        <p class="text-gray-400">Descubre las últimas películas y clásicos</p>
+                    </div>
+
+                    <!-- Suggestion 2 -->
+                    <div class="suggestion-card glass-effect rounded-2xl p-6 border border-emerald-500/20 cursor-pointer" data-content="anime">
+                        <div class="w-16 h-16 emerald-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.5a1.5 1.5 0 011.5 1.5V12a1.5 1.5 0 01-1.5 1.5H9m0-4.5V9a1.5 1.5 0 011.5-1.5H12a1.5 1.5 0 011.5 1.5v1.5m-6 0V12a1.5 1.5 0 001.5 1.5H9"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-white">Animes</h3>
+                        <p class="text-gray-400">Los mejores animes y series japonesas</p>
+                    </div>
+
+                    <!-- Suggestion 3 -->
+                    <div class="suggestion-card glass-effect rounded-2xl p-6 border border-emerald-500/20 cursor-pointer" data-content="kdrama">
+                        <div class="w-16 h-16 emerald-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2 text-white">K-Dramas</h3>
+                        <p class="text-gray-400">Dramas coreanos llenos de romance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification -->
+    <div id="notification" class="fixed top-20 right-5 glass-effect rounded-xl p-4 border border-emerald-500/30 transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 emerald-gradient rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <div>
+                <div class="font-semibold text-white">Notificación</div>
+                <div class="text-sm text-gray-400">Mensaje</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration - Same as other pages
+        const firebaseConfig = {
+            apiKey: "AIzaSyAjXXFxC2S023gE10AciYYnHXaUX3Bqk8Q",
+            authDomain: "kyb-streaming.firebaseapp.com",
+            projectId: "kyb-streaming",
+            storageBucket: "kyb-streaming.firebasestorage.app",
+            messagingSenderId: "477209988490",
+            appId: "1:477209988490:web:d7ad5d1cf166c131394c73",
+            measurementId: "G-3JZ4ECYW0E"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Global variables
+        let currentUser = null;
+        let countdownTimer = 10;
+        let countdownInterval;
+
+        // Countdown functionality
+        function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            
+            countdownInterval = setInterval(() => {
+                countdownTimer--;
+                countdownElement.textContent = countdownTimer;
+                
+                if (countdownTimer <= 0) {
+                    clearInterval(countdownInterval);
+                    showNotification('Redirigiendo', 'Llevándote al inicio...');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        // Update UI based on login status
+        function updateUserInterface() {
+            const loginBtn = document.getElementById('loginBtn');
+            const userProfile = document.getElementById('userProfile');
+            const userName = document.getElementById('userName');
+            const searchPageBtn = document.getElementById('searchPageBtn');
+            
+            if (currentUser) {
+                loginBtn.classList.add('hidden');
+                userProfile.classList.remove('hidden');
+                userName.textContent = currentUser.displayName || 'Usuario';
+                searchPageBtn.classList.remove('hidden');
+            } else {
+                loginBtn.classList.remove('hidden');
+                userProfile.classList.add('hidden');
+                searchPageBtn.classList.add('hidden');
+            }
+        }
+
+        // Firebase Auth State Listener
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                updateUserInterface();
+            } else {
+                currentUser = null;
+                updateUserInterface();
+            }
+        });
+
+        // Button event listeners
+        document.getElementById('homeBtn').addEventListener('click', () => {
+            clearInterval(countdownInterval);
+            showNotification('Redirigiendo', 'Llevándote al inicio...');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        });
+
+        document.getElementById('searchPageBtn').addEventListener('click', () => {
+            if (!currentUser) {
+                showNotification('Inicia sesión', 'Debes iniciar sesión para buscar', 'error');
+                return;
+            }
+            clearInterval(countdownInterval);
+            showNotification('Redirigiendo', 'Llevándote a la búsqueda...');
+            setTimeout(() => {
+                window.location.href = 'search.html';
+            }, 1000);
+        });
+
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            if (!currentUser) {
+                showNotification('Inicia sesión', 'Debes iniciar sesión para buscar', 'error');
+                return;
+            }
+            window.location.href = 'search.html';
+        });
+
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        // Suggestion cards
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.suggestion-card')) {
+                const card = e.target.closest('.suggestion-card');
+                const contentType = card.dataset.content;
+                
+                clearInterval(countdownInterval);
+                showNotification('Redirigiendo', `Llevándote a ${contentType}...`);
+                setTimeout(() => {
+                    window.location.href = `index.html#${contentType}`;
+                }, 1000);
+            }
+        });
+
+        // Profile dropdown functionality
+        document.getElementById('profileDropdown')?.addEventListener('click', () => {
+            const profileMenu = document.getElementById('profileMenu');
+            profileMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileMenu = document.getElementById('profileMenu');
+            
+            if (profileDropdown && !profileDropdown.contains(e.target)) {
+                profileMenu.classList.add('hidden');
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+            try {
+                await auth.signOut();
+                showNotification('Sesión cerrada', 'Has cerrado sesión correctamente');
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+                showNotification('Error', 'No se pudo cerrar la sesión', 'error');
+            }
+        });
+
+        // Notification system
+        function showNotification(title, message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.querySelector('.font-semibold').textContent = title;
+            notification.querySelector('.text-sm').textContent = message;
+            
+            // Show notification
+            notification.classList.remove('translate-x-full');
+            notification.classList.add('translate-x-0');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('translate-x-0');
+                notification.classList.add('translate-x-full');
+            }, 3000);
+        }
+
+        // Stop countdown when user interacts
+        document.addEventListener('click', () => {
+            if (countdownTimer > 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').textContent = 'Cancelado';
+                showNotification('Countdown detenido', 'La redirección automática fue cancelada');
+            }
+        });
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserInterface();
+            startCountdown();
+            
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('Error 404', 'Página no encontrada, pero estamos aquí para ayudarte');
+            }, 500);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'969a52eac6691a43',t:'MTc1NDI3MTM4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KYB - La Nueva Era del Entretenimiento</title>
+    <title>KYB </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -215,9 +215,6 @@
                     <div class="text-3xl font-bold emerald-gradient bg-clip-text text-transparent">
                         KYB
                     </div>
-                    <div class="hidden md:block text-xs text-emerald-400 font-medium">
-                   
-                    </div>
                 </div>
                 
                 <!-- Navigation Premium -->
@@ -232,14 +229,12 @@
                 
                 <!-- Search & User Actions -->
                 <div class="flex items-center space-x-4">
-                    <!-- Search Premium -->
-                    <div class="relative hidden md:block">
-                        <input type="text" id="searchInput" placeholder="Buscar contenido..." 
-                               class="bg-gray-800/50 text-white px-4 py-2 pl-10 rounded-xl border border-emerald-500/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 w-80 transition-all">
-                        <svg class="w-5 h-5 text-emerald-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <!-- Search Icon -->
+                    <button id="searchBtn" class="glass-effect p-3 rounded-xl hover:bg-white/10 transition-all">
+                        <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-                    </div>
+                    </button>
                     
                     <!-- User Profile -->
                     <div id="userSection" class="flex items-center space-x-3">
@@ -284,16 +279,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Continue Watching Section -->
-    <section id="continueWatchingSection" class="py-8 hidden">
-        <div class="container mx-auto px-6">
-            <h2 class="section-title text-2xl font-bold mb-6 text-emerald-400">Continuar Viendo</h2>
-            <div id="continueWatchingCarousel" class="carousel-container flex space-x-6 overflow-x-auto pb-4">
-                <!-- Continue watching items will be loaded here -->
-            </div>
-        </div>
-    </section>
 
     <!-- Hero Banner Premium -->
     <section class="relative h-[70vh] overflow-hidden">
@@ -407,15 +392,19 @@
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="section-title text-3xl font-bold text-emerald-400">Tendencias Ahora</h2>
-                <button class="text-emerald-400 hover:text-emerald-300 font-medium flex items-center space-x-1">
-                    <span>Ver Todo</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
             </div>
             <div id="trendingCarousel" class="carousel-container flex space-x-6 overflow-x-auto pb-4">
                 <!-- Trending content will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Continue Watching Section -->
+    <section id="continueWatchingSection" class="py-12 hidden">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title text-3xl font-bold mb-8 text-emerald-400">Continuar Viendo</h2>
+            <div id="continueWatchingCarousel" class="carousel-container flex space-x-6 overflow-x-auto pb-4">
+                <!-- Continue watching items will be loaded here -->
             </div>
         </div>
     </section>
@@ -427,20 +416,9 @@
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="section-title text-3xl font-bold text-emerald-400">Películas Populares</h2>
-                <button class="text-emerald-400 hover:text-emerald-300 font-medium flex items-center space-x-1">
-                    <span>Ver Todo</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
             </div>
             <div id="moviesCarousel" class="carousel-container flex space-x-6 overflow-x-auto pb-4">
                 <!-- Movies will be loaded here -->
-            </div>
-            <div class="text-center mt-8">
-                <button id="loadMoreMovies" class="glass-effect px-8 py-3 rounded-xl font-semibold transition-all hover:bg-white/10 border border-emerald-500/30 hover:border-emerald-500/50">
-                    Cargar Más Películas
-                </button>
             </div>
         </div>
     </section>
@@ -450,20 +428,9 @@
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="section-title text-3xl font-bold text-emerald-400">Mejores Animes</h2>
-                <button class="text-emerald-400 hover:text-emerald-300 font-medium flex items-center space-x-1">
-                    <span>Ver Todo</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
             </div>
             <div id="animeCarousel" class="carousel-container flex space-x-6 overflow-x-auto pb-4">
                 <!-- Anime will be loaded here -->
-            </div>
-            <div class="text-center mt-8">
-                <button id="loadMoreAnime" class="glass-effect px-8 py-3 rounded-xl font-semibold transition-all hover:bg-white/10 border border-emerald-500/30 hover:border-emerald-500/50">
-                    Cargar Más Animes
-                </button>
             </div>
         </div>
     </section>
@@ -473,20 +440,9 @@
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="section-title text-3xl font-bold text-emerald-400">Mejores Series</h2>
-                <button class="text-emerald-400 hover:text-emerald-300 font-medium flex items-center space-x-1">
-                    <span>Ver Todo</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
             </div>
             <div id="seriesCarousel" class="carousel-container flex space-x-6 overflow-x-auto pb-4">
                 <!-- Series will be loaded here -->
-            </div>
-            <div class="text-center mt-8">
-                <button id="loadMoreSeries" class="glass-effect px-8 py-3 rounded-xl font-semibold transition-all hover:bg-white/10 border border-emerald-500/30 hover:border-emerald-500/50">
-                    Cargar Más Series
-                </button>
             </div>
         </div>
     </section>
@@ -496,20 +452,9 @@
         <div class="container mx-auto px-6">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="section-title text-3xl font-bold text-emerald-400">Mejores K-Dramas</h2>
-                <button class="text-emerald-400 hover:text-emerald-300 font-medium flex items-center space-x-1">
-                    <span>Ver Todo</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
             </div>
             <div id="kdramaCarousel" class="carousel-container flex space-x-6 overflow-x-auto pb-4">
                 <!-- K-Drama will be loaded here -->
-            </div>
-            <div class="text-center mt-8">
-                <button id="loadMoreKdrama" class="glass-effect px-8 py-3 rounded-xl font-semibold transition-all hover:bg-white/10 border border-emerald-500/30 hover:border-emerald-500/50">
-                    Cargar Más K-Dramas
-                </button>
             </div>
         </div>
     </section>
@@ -765,6 +710,36 @@
             `;
         }
 
+        // Create horizontal continue watching card
+        function createContinueWatchingCard(item) {
+            const progressBar = item.progress > 0 ? 
+                `<div class="progress-bar" style="width: ${item.progress}%"></div>` : '';
+            
+            return `
+                <div class="continue-watching-card flex-none w-80 bg-gray-800/50 rounded-2xl overflow-hidden cursor-pointer border border-gray-700/50 hover:border-emerald-500/50 transition-all" data-id="${item.id}">
+                    <div class="flex">
+                        <div class="relative w-32 h-20">
+                            <div class="w-full h-full bg-gradient-to-br from-${item.image} to-gray-800 flex items-center justify-center relative">
+                                <span class="text-white font-bold text-center px-2 text-xs">${item.title}</span>
+                                ${progressBar}
+                            </div>
+                        </div>
+                        <div class="flex-1 p-4">
+                            <h3 class="font-semibold text-white text-sm mb-1">${item.title}</h3>
+                            <p class="text-emerald-400 text-xs mb-2">${item.year} • ${item.genre}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-1">
+                                    <span class="rating-stars text-yellow-400 text-xs">★</span>
+                                    <span class="text-white text-xs">${item.rating}</span>
+                                </div>
+                                <span class="text-emerald-300 text-xs">${item.progress}% visto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         // Load content into carousels
         function loadContent() {
             // Load trending (mix of all content)
@@ -865,14 +840,9 @@
         });
 
         // Search functionality
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                const searchTerm = this.value.trim();
-                if (searchTerm) {
-                    // Redirect to search.html as requested
-                    window.location.href = `search.html?q=${encodeURIComponent(searchTerm)}`;
-                }
-            }
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            // Redirect to search page
+            window.location.href = 'search.html';
         });
 
         // Modal functionality
@@ -1015,18 +985,15 @@
                     userMyList = userData.myList || [];
                     userWatchHistory = userData.watchHistory || [];
                     
-                    // Load continue watching data
+                    // Load continue watching data - only show if user has watch history
+                    const continueWatchingSection = document.getElementById('continueWatchingSection');
                     const continueWatchingCarousel = document.getElementById('continueWatchingCarousel');
+                    
                     if (userWatchHistory.length > 0) {
-                        continueWatchingCarousel.innerHTML = userWatchHistory.map(item => createContentCard(item, true)).join('');
+                        continueWatchingSection.classList.remove('hidden');
+                        continueWatchingCarousel.innerHTML = userWatchHistory.map(item => createContinueWatchingCard(item)).join('');
                     } else {
-                        // Show sample data if no history
-                        const continueWatching = [
-                            { ...sampleMovies[0], progress: 65 },
-                            { ...sampleAnime[1], progress: 30 },
-                            { ...sampleKdrama[0], progress: 80 }
-                        ];
-                        continueWatchingCarousel.innerHTML = continueWatching.map(item => createContentCard(item, true)).join('');
+                        continueWatchingSection.classList.add('hidden');
                     }
                 }
             } catch (error) {
@@ -1063,8 +1030,8 @@
 
         // Content click handlers
         document.addEventListener('click', async (e) => {
-            if (e.target.closest('.poster-card')) {
-                const card = e.target.closest('.poster-card');
+            if (e.target.closest('.poster-card') || e.target.closest('.continue-watching-card')) {
+                const card = e.target.closest('.poster-card') || e.target.closest('.continue-watching-card');
                 const itemId = card.dataset.id;
                 
                 if (e.target.closest('.add-to-list')) {
@@ -1109,54 +1076,7 @@
             }
         });
 
-        // Load More functionality
-        document.getElementById('loadMoreMovies').addEventListener('click', () => {
-            const newMovies = [
-                { id: 25, title: "Horror Nocturno", genre: "Horror", year: "2024", rating: 8.1, image: "gray-600", progress: 0 },
-                { id: 26, title: "Aventura Espacial", genre: "Sci-Fi", year: "2024", rating: 8.8, image: "purple-600", progress: 0 },
-                { id: 27, title: "Comedia Familiar", genre: "Comedia", year: "2024", rating: 7.9, image: "yellow-500", progress: 0 },
-                { id: 28, title: "Drama Histórico", genre: "Drama", year: "2024", rating: 8.6, image: "amber-600", progress: 0 }
-            ];
-            
-            const moviesCarousel = document.getElementById('moviesCarousel');
-            moviesCarousel.insertAdjacentHTML('beforeend', newMovies.map(item => createContentCard(item)).join(''));
-        });
 
-        document.getElementById('loadMoreAnime').addEventListener('click', () => {
-            const newAnime = [
-                { id: 29, title: "Samurai Legend", genre: "Action", year: "2024", rating: 9.0, image: "red-500", progress: 0 },
-                { id: 30, title: "School Life", genre: "Slice of Life", year: "2024", rating: 8.3, image: "blue-500", progress: 0 },
-                { id: 31, title: "Magic Girl", genre: "Magical Girl", year: "2024", rating: 8.5, image: "pink-500", progress: 0 },
-                { id: 32, title: "Sports Hero", genre: "Sports", year: "2024", rating: 8.7, image: "green-500", progress: 0 }
-            ];
-            
-            const animeCarousel = document.getElementById('animeCarousel');
-            animeCarousel.insertAdjacentHTML('beforeend', newAnime.map(item => createContentCard(item)).join(''));
-        });
-
-        document.getElementById('loadMoreSeries').addEventListener('click', () => {
-            const newSeries = [
-                { id: 33, title: "Mystery Detective", genre: "Mystery", year: "2024", rating: 8.4, image: "indigo-600", progress: 0 },
-                { id: 34, title: "Family Drama", genre: "Drama", year: "2024", rating: 8.2, image: "green-600", progress: 0 },
-                { id: 35, title: "Action Series", genre: "Action", year: "2024", rating: 8.9, image: "red-600", progress: 0 },
-                { id: 36, title: "Comedy Show", genre: "Comedy", year: "2024", rating: 8.0, image: "yellow-500", progress: 0 }
-            ];
-            
-            const seriesCarousel = document.getElementById('seriesCarousel');
-            seriesCarousel.insertAdjacentHTML('beforeend', newSeries.map(item => createContentCard(item)).join(''));
-        });
-
-        document.getElementById('loadMoreKdrama').addEventListener('click', () => {
-            const newKdramas = [
-                { id: 37, title: "Office Romance", genre: "Romance", year: "2024", rating: 8.8, image: "rose-500", progress: 0 },
-                { id: 38, title: "Time Travel", genre: "Fantasy", year: "2024", rating: 9.1, image: "purple-500", progress: 0 },
-                { id: 39, title: "Family Secrets", genre: "Drama", year: "2024", rating: 8.5, image: "gray-600", progress: 0 },
-                { id: 40, title: "Chef Story", genre: "Slice of Life", year: "2024", rating: 8.3, image: "orange-500", progress: 0 }
-            ];
-            
-            const kdramaCarousel = document.getElementById('kdramaCarousel');
-            kdramaCarousel.insertAdjacentHTML('beforeend', newKdramas.map(item => createContentCard(item)).join(''));
-        });
 
         // Profile dropdown functionality
         document.getElementById('profileDropdown').addEventListener('click', () => {
@@ -1208,7 +1128,7 @@
             
             // Show welcome message
             setTimeout(() => {
-                showNotification('¡Bienvenido a KYB!', 'Disfruta');
+                showNotification('¡Bienvenido a KYB!');
             }, 1000);
         });
 
@@ -1228,5 +1148,5 @@
             }
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'969a2f8295d11a4a',t:'MTc1NDI2OTkzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'969a3bb151871a4e',t:'MTc1NDI3MDQzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
